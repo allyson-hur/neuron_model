@@ -1,7 +1,12 @@
 from neuron import h, gui
 from neuron.units import ms, mV
+import matplotlib.pyplot as plt
+
 
 def hh_neuron_model():
+    """
+    Create a visualization for a Hodgkin-Huxley neuron model.
+    """
     # Create a cell
     soma = h.Section(name='soma')
 
@@ -21,10 +26,11 @@ def hh_neuron_model():
     hh = soma(0.5).hh
 
     # Set Hodgkin-Huxley parameters
-    hh.m = 0.05  # initial m gate value
-    hh.h = 0.6   # initial h gate value
-    hh.n = 0.32  # initial n gate value
+    hh.m = 0.05  # sodium subunit activation
+    hh.n = 0.32  # potassium subunit activation
+    hh.h = 0.6   # sodium subunit inactivation
 
+    
     # Insert a current clamp stimulus
     stim = h.IClamp(soma(0.5))  # place the stimulus in the middle of the soma
     stim.delay = 5.0  # delay before the current starts (ms)
@@ -48,11 +54,9 @@ def hh_neuron_model():
     # Initialize and run the simulation
     h.load_file('stdrun.hoc')
     h.finitialize(-65.0)
-    h.continuerun(100.0)  # run the simulation for 100 ms
+    h.continuerun(100.0) 
 
     # Plot the results
-    import matplotlib.pyplot as plt
-
     plt.figure(figsize=(10, 6))
 
     plt.subplot(2, 1, 1)

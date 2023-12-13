@@ -1,8 +1,12 @@
-import matplotlib.pyplot as plt
 from neuron import h
 from neuron.units import ms, mV
+import matplotlib.pyplot as plt
+
 
 def simple_model():
+    """
+    Create a simple visualization of a neuron model.
+    """
     # Create a cell
     soma = h.Section(name='soma')
 
@@ -14,7 +18,7 @@ def simple_model():
     soma.insert('hh')
 
     # Insert a stimulus
-    iclamp = h.IClamp(soma(0.5))
+    iclamp = h.IClamp(soma(0.5))    # place the stimulus in the middle of the soma
 
     iclamp.delay = 2    # delay before the current starts (ms)
     iclamp.dur = 0.1    # duration of the current pulse (ms)
@@ -29,6 +33,7 @@ def simple_model():
     h.finitialize(-65 * mV)
     h.continuerun(40 * ms)
 
+    # Plot results
     plt.figure()
     plt.plot(t, v)
     plt.xlabel('Time (ms)')
